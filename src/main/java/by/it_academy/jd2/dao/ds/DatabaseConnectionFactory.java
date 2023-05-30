@@ -3,10 +3,13 @@ package by.it_academy.jd2.dao.ds;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Properties;
 
 public class DatabaseConnectionFactory {
     private static final String USERNAME = "postgres";
@@ -14,13 +17,21 @@ public class DatabaseConnectionFactory {
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
     static {
-        config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
-        config.addDataSourceProperty("serverName", "localhost");
-        config.addDataSourceProperty("portNumber", "5432");
-        config.addDataSourceProperty("databaseName", "---");
-        config.addDataSourceProperty("user", USERNAME);
-        config.addDataSourceProperty("password", PASSWORD);
-        ds = new HikariDataSource(config);
+        try(InputStream input = new FileInputStream("src/main/resources/database.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+
+            config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
+            config.addDataSourceProperty("serverName", properties.getProperty("serverName"));
+            config.addDataSourceProperty("portNumber", properties.getProperty("portNumber"));
+            config.addDataSourceProperty("databaseName", properties.getProperty("databaseName"));
+            config.addDataSourceProperty("user", properties.getProperty("username"));
+            config.addDataSourceProperty("password", properties.getProperty("password"));
+
+            ds = new HikariDataSource(config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private DatabaseConnectionFactory() {
