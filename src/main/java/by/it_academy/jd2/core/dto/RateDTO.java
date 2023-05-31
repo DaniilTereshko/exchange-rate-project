@@ -5,23 +5,23 @@ import java.math.BigInteger;
 import java.sql.Date;
 
 public class RateDTO {
-    private BigInteger currencyID;
+    private Integer currencyID;
     private BigDecimal currencyCost;
-    Date dateExchangeRate;
+    private Date dateExchangeRate;
     boolean isWeekend;
 
-    public RateDTO(BigInteger currencyID, BigDecimal currencyCost, Date dateExchangeRate, boolean isWeekend) {
+    public RateDTO(Integer currencyID, BigDecimal currencyCost, Date dateExchangeRate, boolean isWeekend) {
         this.currencyID = currencyID;
         this.currencyCost = currencyCost;
         this.dateExchangeRate = dateExchangeRate;
         this.isWeekend = isWeekend;
     }
 
-    public BigInteger getCurrencyID() {
+    public Integer getCurrencyID() {
         return currencyID;
     }
 
-    public void setCurrencyID(BigInteger currencyID) {
+    public void setCurrencyID(Integer currencyID) {
         this.currencyID = currencyID;
     }
 

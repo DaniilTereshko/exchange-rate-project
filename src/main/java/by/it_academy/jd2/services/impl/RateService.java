@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -33,8 +34,8 @@ public class RateService implements IRateService {
     }
 
     @Override
-    public List<RateDTO> get(String currencyType) {
-        return null;
+    public List<RateDTO> get(Integer currencyId) {
+        return rateJDBCDAO.get(currencyId);
     }
 
     private void validate(RateRequestDTO rateRequestDTO){
