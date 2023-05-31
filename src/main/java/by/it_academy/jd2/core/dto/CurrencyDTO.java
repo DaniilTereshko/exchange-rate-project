@@ -7,238 +7,238 @@ import java.sql.Date;
 
 public class CurrencyDTO {
     @JsonSetter("Cur_ID")
-    private int curID;
+    private int ID;
     @JsonSetter("Cur_ParentID")
-    private int curParentID;
+    private int parentID;
     @JsonSetter("Cur_Code")
-    private String curCode;
+    private String code;
     @JsonSetter("Cur_Abbreviation")
-    private String curAbbreviation;
+    private String abbreviation;
     @JsonSetter("Cur_Name")
-    private String curName;
+    private String name;
     @JsonSetter("Cur_Name_Bel")
-    private String curNameBel;
+    private String nameBel;
     @JsonSetter("Cur_Name_Eng")
-    private String curNameEng;
+    private String nameEng;
     @JsonSetter("Cur_QuotName")
-    private String curQuotName;
+    private String quotName;
     @JsonSetter("Cur_QuotName_Bel")
-    private String curQuotName_Bel;
+    private String quotNameBel;
     @JsonSetter("Cur_QuotName_Eng")
-    private String curQuotName_Eng;
+    private String quotNameEng;
     @JsonSetter("Cur_NameMulti")
-    private String curNameMulti;
+    private String nameMulti;
     @JsonSetter("Cur_Name_BelMulti")
-    private String curNameBelMulti;
+    private String nameBelMulti;
     @JsonSetter("Cur_Name_EngMulti")
-    private String curNameEngMulti;
+    private String nameEngMulti;
 
     @JsonSetter("Cur_Scale")
-    private int curScale;
+    private int scale;
     @JsonSetter("Cur_Periodicity")
-    private int curPeriodicity;
+    private int periodicity;
 
     @JsonSetter("Cur_DateStart")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date curDateStart;
+    private Date dateStart;
     @JsonSetter("Cur_DateEnd")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date curDateEnd;
+    private Date dateEnd;
 
     public CurrencyDTO(){}
-    public CurrencyDTO(int curID,
-                       int curParentID,
-                       String curCode,
-                       String curAbbreviation,
-                       String curName,
-                       String curName_Bel,
-                       String curName_Eng,
-                       String curQuotName,
-                       String curQuotName_Bel,
-                       String curQuotName_Eng,
-                       String curNameMulti,
-                       String curNameBelMulti,
-                       String curName_EngMulti,
-                       int curScale,
-                       int curPeriodicity,
-                       Date curDateStart,
-                       Date curDateEnd) {
-        this.curID = curID;
-        this.curParentID = curParentID;
-        this.curCode = curCode;
-        this.curAbbreviation = curAbbreviation;
-        this.curName = curName;
-        this.curNameBel = curName_Bel;
-        this.curNameEng = curName_Eng;
-        this.curQuotName = curQuotName;
-        this.curQuotName_Bel = curQuotName_Bel;
-        this.curQuotName_Eng = curQuotName_Eng;
-        this.curNameMulti = curNameMulti;
-        this.curNameBelMulti = curNameBelMulti;
-        this.curNameEngMulti = curName_EngMulti;
-        this.curScale = curScale;
-        this.curPeriodicity = curPeriodicity;
-        this.curDateStart = curDateStart;
-        this.curDateEnd = curDateEnd;
+
+    public CurrencyDTO(int ID,
+                       int parentID,
+                       String code,
+                       String abbreviation,
+                       String name,
+                       String nameBel,
+                       String nameEng,
+                       String quotName,
+                       String quotNameBel,
+                       String quotNameEng,
+                       String nameMulti,
+                       String nameBelMulti,
+                       String nameEngMulti,
+                       int scale,
+                       int periodicity,
+                       Date dateStart,
+                       Date dateEnd) {
+        this.ID = ID;
+        this.parentID = parentID;
+        this.code = code;
+        this.abbreviation = abbreviation;
+        this.name = name;
+        this.nameBel = nameBel;
+        this.nameEng = nameEng;
+        this.quotName = quotName;
+        this.quotNameBel = quotNameBel;
+        this.quotNameEng = quotNameEng;
+        this.nameMulti = nameMulti;
+        this.nameBelMulti = nameBelMulti;
+        this.nameEngMulti = nameEngMulti;
+        this.scale = scale;
+        this.periodicity = periodicity;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
     }
 
-
-    public int getCurID() {
-        return curID;
+    public int getID() {
+        return ID;
     }
 
-    public int getCurParentID() {
-        return curParentID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public String getCurCode() {
-        return curCode;
+    public int getParentID() {
+        return parentID;
     }
 
-    public String getCurAbbreviation() {
-        return curAbbreviation;
+    public void setParentID(int parentID) {
+        this.parentID = parentID;
     }
 
-    public String getCurName() {
-        return curName;
+    public String getCode() {
+        return code;
     }
 
-    public String getCurName_Bel() {
-        return curNameBel;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getCurName_Eng() {
-        return curNameEng;
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
-    public String getCurQuotName() {
-        return curQuotName;
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
-    public String getCurQuotName_Bel() {
-        return curQuotName_Bel;
+    public String getName() {
+        return name;
     }
 
-    public String getCurQuotName_Eng() {
-        return curQuotName_Eng;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCurNameMulti() {
-        return curNameMulti;
+    public String getNameBel() {
+        return nameBel;
     }
 
-    public String getCurNameBelMulti() {
-        return curNameBelMulti;
+    public void setNameBel(String nameBel) {
+        this.nameBel = nameBel;
     }
 
-    public String getCurName_EngMulti() {
-        return curNameEngMulti;
+    public String getNameEng() {
+        return nameEng;
     }
 
-    public int getCurScale() {
-        return curScale;
+    public void setNameEng(String nameEng) {
+        this.nameEng = nameEng;
     }
 
-    public int getCurPeriodicity() {
-        return curPeriodicity;
+    public String getQuotName() {
+        return quotName;
     }
 
-    public Date getCurDateStart() {
-        return curDateStart;
+    public void setQuotName(String quotName) {
+        this.quotName = quotName;
     }
 
-    public Date getCurDateEnd() {
-        return curDateEnd;
+    public String getQuotNameBel() {
+        return quotNameBel;
     }
 
-    public void setCurID(int curID) {
-        this.curID = curID;
+    public void setQuotNameBel(String quotNameBel) {
+        this.quotNameBel = quotNameBel;
     }
 
-    public void setCurParentID(int curParentID) {
-        this.curParentID = curParentID;
+    public String getQuotNameEng() {
+        return quotNameEng;
     }
 
-    public void setCurCode(String curCode) {
-        this.curCode = curCode;
+    public void setQuotNameEng(String quotNameEng) {
+        this.quotNameEng = quotNameEng;
     }
 
-    public void setCurAbbreviation(String curAbbreviation) {
-        this.curAbbreviation = curAbbreviation;
+    public String getNameMulti() {
+        return nameMulti;
     }
 
-    public void setCurName(String curName) {
-        this.curName = curName;
+    public void setNameMulti(String nameMulti) {
+        this.nameMulti = nameMulti;
     }
 
-    public void setCurName_Bel(String curName_Bel) {
-        this.curNameBel = curName_Bel;
+    public String getNameBelMulti() {
+        return nameBelMulti;
     }
 
-    public void setCurName_Eng(String curName_Eng) {
-        this.curNameEng = curName_Eng;
+    public void setNameBelMulti(String nameBelMulti) {
+        this.nameBelMulti = nameBelMulti;
     }
 
-    public void setCurQuotName(String curQuotName) {
-        this.curQuotName = curQuotName;
+    public String getNameEngMulti() {
+        return nameEngMulti;
     }
 
-    public void setCurQuotName_Bel(String curQuotName_Bel) {
-        this.curQuotName_Bel = curQuotName_Bel;
+    public void setNameEngMulti(String nameEngMulti) {
+        this.nameEngMulti = nameEngMulti;
     }
 
-    public void setCurQuotName_Eng(String curQuotName_Eng) {
-        this.curQuotName_Eng = curQuotName_Eng;
+    public int getScale() {
+        return scale;
     }
 
-    public void setCurNameMulti(String curNameMulti) {
-        this.curNameMulti = curNameMulti;
+    public void setScale(int scale) {
+        this.scale = scale;
     }
 
-    public void setCurNameBelMulti(String curNameBelMulti) {
-        this.curNameBelMulti = curNameBelMulti;
+    public int getPeriodicity() {
+        return periodicity;
     }
 
-    public void setCurName_EngMulti(String curName_EngMulti) {
-        this.curNameEngMulti = curName_EngMulti;
+    public void setPeriodicity(int periodicity) {
+        this.periodicity = periodicity;
     }
 
-    public void setCurScale(int curScale) {
-        this.curScale = curScale;
+    public Date getDateStart() {
+        return dateStart;
     }
 
-    public void setCurPeriodicity(int curPeriodicity) {
-        this.curPeriodicity = curPeriodicity;
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
     }
 
-    public void setCurDateStart(Date curDateStart) {
-        this.curDateStart = curDateStart;
+    public Date getDateEnd() {
+        return dateEnd;
     }
 
-    public void setCurDateEnd(Date curDateEnd) {
-        this.curDateEnd = curDateEnd;
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
     @Override
     public String toString() {
         return "CurrencyDTO{" +
-                "curID=" + curID +
-                ", curParentID=" + curParentID +
-                ", curCode='" + curCode + '\'' +
-                ", curAbbreviation='" + curAbbreviation + '\'' +
-                ", curName='" + curName + '\'' +
-                ", curNameBel='" + curNameBel + '\'' +
-                ", curNameEng='" + curNameEng + '\'' +
-                ", curQuotName='" + curQuotName + '\'' +
-                ", curQuotName_Bel='" + curQuotName_Bel + '\'' +
-                ", curQuotName_Eng='" + curQuotName_Eng + '\'' +
-                ", curNameMulti='" + curNameMulti + '\'' +
-                ", curNameBelMulti='" + curNameBelMulti + '\'' +
-                ", curNameEngMulti='" + curNameEngMulti + '\'' +
-                ", curScale=" + curScale +
-                ", curPeriodicity=" + curPeriodicity +
-                ", curDateStart=" + curDateStart +
-                ", curDateEnd=" + curDateEnd +
+                "curID=" + ID +
+                ", curParentID=" + parentID +
+                ", curCode='" + code + '\'' +
+                ", curAbbreviation='" + abbreviation + '\'' +
+                ", curName='" + name + '\'' +
+                ", curNameBel='" + nameBel + '\'' +
+                ", curNameEng='" + nameEng + '\'' +
+                ", curQuotName='" + quotName + '\'' +
+                ", curQuotName_Bel='" + quotNameBel + '\'' +
+                ", curQuotName_Eng='" + quotNameEng + '\'' +
+                ", curNameMulti='" + nameMulti + '\'' +
+                ", curNameBelMulti='" + nameBelMulti + '\'' +
+                ", curNameEngMulti='" + nameEngMulti + '\'' +
+                ", curScale=" + scale +
+                ", curPeriodicity=" + periodicity +
+                ", curDateStart=" + dateStart +
+                ", curDateEnd=" + dateEnd +
                 '}';
     }
 }
