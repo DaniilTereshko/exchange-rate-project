@@ -1,6 +1,7 @@
 package by.it_academy.jd2.dao.db;
 
 import by.it_academy.jd2.core.dto.RateDTO;
+import by.it_academy.jd2.core.dto.RateRequestDTO;
 import by.it_academy.jd2.dao.API.IRateDAO;
 
 import java.math.BigDecimal;
@@ -20,12 +21,13 @@ public class RateJDBCDAO implements IRateDAO {
         //сохраняем в БД
         return null;
     }
+    @Override
+    public List<RateDTO> get(RateRequestDTO rateRequestDTO) {
+        return null;
+    }
 
-    public BigDecimal getAverage(String curAbbreviation){
-        //PreparedStatement preparedStatement = ("SELECT abbreviation, currency_cost FROM app.currency_exchange_rate INNER JOIN app.currency USING(currency_id) WHERE abbreviation = '?'");
-        //preparedStatement.setString(curAbbreviation);
-        //ResultSet resultSet = preparedStatement.executeQuery();
-
+    @Override
+    public List<RateDTO> get(String currencyType) {
         return null;
     }
 }
