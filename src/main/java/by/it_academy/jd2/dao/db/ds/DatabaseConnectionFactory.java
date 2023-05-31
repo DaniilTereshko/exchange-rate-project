@@ -1,4 +1,4 @@
-package by.it_academy.jd2.dao.ds;
+package by.it_academy.jd2.dao.db.ds;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,8 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Properties;
 
