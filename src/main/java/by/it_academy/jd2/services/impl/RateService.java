@@ -2,6 +2,7 @@ package by.it_academy.jd2.services.impl;
 
 import by.it_academy.jd2.core.dto.RateDTO;
 import by.it_academy.jd2.core.dto.RateRequestDTO;
+
 import by.it_academy.jd2.dao.api.ICurrencyDAO;
 import by.it_academy.jd2.dao.api.IRateDAO;
 import by.it_academy.jd2.dao.mapper.MapperFactory;
@@ -40,8 +41,8 @@ public class RateService implements IRateService {
     }
 
     @Override
-    public List<RateDTO> get(String currencyType) {
-        return null;
+    public List<RateDTO> get(Integer currencyId) {
+        return rateJDBCDAO.get(currencyId);
     }
 
     private void validate(RateRequestDTO rateRequestDTO){

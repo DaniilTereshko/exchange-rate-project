@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IRateService {
     List<RateDTO> get(RateRequestDTO rateRequestDTO);
-    List<RateDTO> get(String currencyType);
+    List<RateDTO> get(Integer currencyType);
 }
