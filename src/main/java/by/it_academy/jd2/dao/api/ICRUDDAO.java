@@ -1,4 +1,4 @@
-package by.it_academy.jd2.dao.API;
+package by.it_academy.jd2.dao.api;
 
 import java.util.List;
 

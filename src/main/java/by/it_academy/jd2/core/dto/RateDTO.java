@@ -10,6 +10,9 @@ public class RateDTO {
     Date dateExchangeRate;
     boolean isWeekend;
 
+    public RateDTO() {
+    }
+
     public RateDTO(BigInteger currencyID, BigDecimal currencyCost, Date dateExchangeRate, boolean isWeekend) {
         this.currencyID = currencyID;
         this.currencyCost = currencyCost;

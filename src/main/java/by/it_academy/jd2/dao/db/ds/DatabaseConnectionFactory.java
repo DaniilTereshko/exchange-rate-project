@@ -10,26 +10,20 @@ import java.sql.*;
 import java.util.Properties;
 
 public class DatabaseConnectionFactory {
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "R2-D2-F1-L1";
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
     static {
-        try(InputStream input = new FileInputStream("src/main/resources/database.properties")) {
-            Properties properties = new Properties();
-            properties.load(input);
 
-            config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
-            config.addDataSourceProperty("serverName", properties.getProperty("serverName"));
-            config.addDataSourceProperty("portNumber", properties.getProperty("portNumber"));
-            config.addDataSourceProperty("databaseName", properties.getProperty("databaseName"));
-            config.addDataSourceProperty("user", properties.getProperty("username"));
-            config.addDataSourceProperty("password", properties.getProperty("password"));
 
-            ds = new HikariDataSource(config);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
+        config.addDataSourceProperty("serverName", "ec2-3-125-38-63.eu-central-1.compute.amazonaws.com");
+        config.addDataSourceProperty("portNumber", "5432");
+        config.addDataSourceProperty("databaseName", "courses");
+        config.addDataSourceProperty("user", "nbrb");
+        config.addDataSourceProperty("password", "course2023");
+
+        ds = new HikariDataSource(config);
+
     }
 
     private DatabaseConnectionFactory() {
