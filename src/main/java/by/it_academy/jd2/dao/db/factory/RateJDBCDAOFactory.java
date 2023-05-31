@@ -1,7 +1,7 @@
 package by.it_academy.jd2.dao.db.factory;
 
-import by.it_academy.jd2.dao.API.IRateDAO;
-import by.it_academy.jd2.dao.db.RateJDBCDAO;
+import by.it_academy.jd2.dao.api.IRateDAO;
+import by.it_academy.jd2.dao.db.impl.RateJDBCDAO;
 
 public class RateJDBCDAOFactory {
     private static volatile IRateDAO rateDAO = null;
