@@ -32,7 +32,9 @@ public class DateCurrencyRateServlet extends HttpServlet {
             List<RateDTO> rates = rateService.get(rateRequestDTO);
 
         }
-        //ошибка
+        else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "You must enter start date, end date, currency type as input.");
+        }
     }
 
     @Override

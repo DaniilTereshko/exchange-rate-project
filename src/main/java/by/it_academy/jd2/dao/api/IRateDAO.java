@@ -8,4 +8,4 @@ import java.util.List;
 public interface IRateDAO extends ICRUDDAO<RateDTO>{
     List<RateDTO> get(RateRequestDTO rateRequestDTO);
     List<RateDTO> get(Integer currencyType);
-}
+
