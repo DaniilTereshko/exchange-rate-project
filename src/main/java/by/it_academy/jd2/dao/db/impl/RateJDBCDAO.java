@@ -1,12 +1,10 @@
-package by.it_academy.jd2.dao.db;
+package by.it_academy.jd2.dao.db.impl;
 
 import by.it_academy.jd2.core.dto.RateDTO;
 import by.it_academy.jd2.core.dto.RateRequestDTO;
-import by.it_academy.jd2.dao.API.IRateDAO;
+import by.it_academy.jd2.dao.api.IRateDAO;
 import by.it_academy.jd2.dao.db.ds.DatabaseConnectionFactory;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
