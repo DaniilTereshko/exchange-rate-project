@@ -31,7 +31,7 @@ public class RateJDBCDAO implements IRateDAO {
                 statement.setObject(3, rateDTO.getDateExchangeRate());
                 statement.addBatch();
             }
-            int i = statement.executeUpdate();
+            statement.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка вставки", e);
         }
