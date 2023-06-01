@@ -1,40 +1,42 @@
 package by.it_academy.jd2.core.dto;
 
+import java.util.Date;
+
 public class RateRequestDTO {
-    private String currencyType;
-    private String endDate;
-    private String startDate;
+    private Integer id;
+    private Date endDate;
+    private Date startDate;
 
     public RateRequestDTO() {
     }
 
-    public RateRequestDTO(String currencyType, String endDate, String startDate) {
-        this.currencyType = currencyType;
+    public RateRequestDTO(Integer id, Date endDate, Date startDate) {
+        this.id = id;
         this.endDate = endDate;
         this.startDate = startDate;
     }
 
-    public String getCurrencyType() {
-        return currencyType;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCurrencyType(String currencyType) {
-        this.currencyType = currencyType;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 }

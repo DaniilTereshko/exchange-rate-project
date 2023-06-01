@@ -1,13 +1,19 @@
 package by.it_academy.jd2.core.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Date;
 
 public class RateDTO {
+    @JsonSetter("Cur_ID")
     private Integer currencyID;
+    @JsonSetter("Cur_OfficialRate")
     private BigDecimal currencyCost;
+    @JsonSetter("Date")
     private Date dateExchangeRate;
+    @JsonIgnore
     boolean isWeekend;
 
     public RateDTO() {

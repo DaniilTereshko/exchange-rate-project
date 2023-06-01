@@ -1,6 +1,7 @@
 package by.it_academy.jd2.dao.db.impl;
 
 import by.it_academy.jd2.core.dto.RateDTO;
+import by.it_academy.jd2.core.dto.RateRequestCreatorDTO;
 import by.it_academy.jd2.core.dto.RateRequestDTO;
 import by.it_academy.jd2.dao.api.IRateDAO;
 import by.it_academy.jd2.dao.db.ds.DatabaseConnectionFactory;
@@ -21,8 +22,6 @@ public class RateJDBCDAO implements IRateDAO {
 
     @Override
     public List<RateDTO> save(List<RateDTO> dtos) {
-
-      
         try(Connection connection = DatabaseConnectionFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("INSERT INTO app.currency_exchange_rate(currency_id, currency_cost, date_exchange_rate, is_weekend)" +
                     "VALUES(?, ?, ?, ?);");){
