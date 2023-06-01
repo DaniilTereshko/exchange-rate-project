@@ -1,16 +1,17 @@
 package by.it_academy.jd2.core.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class RateRequestDTO {
     private Integer id;
-    private Date endDate;
-    private Date startDate;
+    private LocalDateTime endDate;
+    private LocalDateTime startDate;
 
     public RateRequestDTO() {
     }
 
-    public RateRequestDTO(Integer id, Date endDate, Date startDate) {
+    public RateRequestDTO(Integer id, LocalDateTime endDate, LocalDateTime startDate) {
         this.id = id;
         this.endDate = endDate;
         this.startDate = startDate;
@@ -24,19 +25,19 @@ public class RateRequestDTO {
         this.id = id;
     }
 
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 }

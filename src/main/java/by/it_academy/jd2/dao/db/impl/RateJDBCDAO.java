@@ -23,13 +23,12 @@ public class RateJDBCDAO implements IRateDAO {
     @Override
     public List<RateDTO> save(List<RateDTO> dtos) {
         try(Connection connection = DatabaseConnectionFactory.getConnection();
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO app.currency_exchange_rate(currency_id, currency_cost, date_exchange_rate, is_weekend)" +
-                    "VALUES(?, ?, ?, ?);");){
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO app.currency_exchange_rate(currency_id, currency_cost, date_exchange_rate)" +
+                    "VALUES(?, ?, ?);");){
             for (RateDTO rateDTO:dtos){
                 statement.setObject(1, rateDTO.getCurrencyID());
                 statement.setBigDecimal(2, rateDTO.getCurrencyCost());
-                statement.setDate(3, rateDTO.getDateExchangeRate());
-                statement.setBoolean(4, rateDTO.isWeekend());
+                statement.setObject(3, rateDTO.getDateExchangeRate());
                 statement.addBatch();
             }
             int i = statement.executeUpdate();
@@ -53,7 +52,7 @@ public class RateJDBCDAO implements IRateDAO {
             st.setInt(1,currencyId);
             try (ResultSet rs = st.executeQuery();) {
                 while (rs.next()) {
-                     rateDTOList.add(new RateDTO(currencyId,rs.getBigDecimal("currency_cost"), rs.getDate("date_exchange_rate"), true));
+                     rateDTOList.add(new RateDTO(currencyId,rs.getBigDecimal("currency_cost"), rs.getDate("date_exchange_rate").toLocalDate().atStartOfDay(), true));
                 }
             }
         } catch (SQLException e) {
