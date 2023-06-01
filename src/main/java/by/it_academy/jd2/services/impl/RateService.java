@@ -11,10 +11,13 @@ import by.it_academy.jd2.services.api.IRateService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,9 +36,11 @@ public class RateService implements IRateService {
     public List<RateDTO> get(RateRequestCreatorDTO rateRequestCreatorDTO) {
         RateRequestDTO rateRequest = validate(rateRequestCreatorDTO);
         List<RateDTO> rateDTOS;
+        Duration between = Duration.between(rateRequest.getStartDate(), rateRequest.getEndDate());
+        long l = between.toDays() + 1;
 
         rateDTOS = rateJDBCDAO.get(rateRequest);
-        if(rateDTOS == null || rateDTOS.isEmpty()){
+        if(rateDTOS == null || rateDTOS.isEmpty() || rateDTOS.size() != l){
             rateDTOS = apiNBRBRequestService.request(rateRequest);
             rateJDBCDAO.save(rateDTOS);
         }

@@ -40,7 +40,25 @@ public class RateJDBCDAO implements IRateDAO {
     }
     @Override
     public List<RateDTO> get(RateRequestDTO rateRequestDTO) {
-        return null;
+        List<RateDTO> rateDTOList = new ArrayList<>();
+        try (Connection conn = DatabaseConnectionFactory.getConnection();
+             PreparedStatement st = conn.prepareStatement("SELECT currency_id, currency_cost, date_exchange_rate, CAST(is_day_off AS boolean)\n" +
+                     "FROM app.currency_exchange_rate cer JOIN app.weekends w ON cer.date_exchange_rate = w.calendar_date \n" +
+                     "WHERE date_exchange_rate BETWEEN SYMMETRIC ? AND ?\n" +
+                     "AND currency_id = ?;");
+        ){
+            st.setObject(1,rateRequestDTO.getStartDate());
+            st.setObject(2,rateRequestDTO.getEndDate());
+            st.setInt(3,rateRequestDTO.getId());
+            try (ResultSet rs = st.executeQuery();) {
+                while (rs.next()) {
+                    rateDTOList.add(new RateDTO(rs.getInt("currency_id"),rs.getBigDecimal("currency_cost"), rs.getDate("date_exchange_rate").toLocalDate().atStartOfDay(), rs.getBoolean("is_day_off")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rateDTOList;
     }
 
     @Override
