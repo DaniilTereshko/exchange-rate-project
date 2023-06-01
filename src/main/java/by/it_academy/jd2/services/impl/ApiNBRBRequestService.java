@@ -15,15 +15,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ApiNBRBRequestService implements IApiNBRBRequestService {
     @Override
     public List<RateDTO> request(RateRequestDTO item) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         HttpClient httpClient = HttpClient.newHttpClient();
         String uri = "https://api.nbrb.by/ExRates/Rates/Dynamics/";
-
 
         uri += item.getId() + "?" + "startDate=" + dateFormat.format(item.getStartDate()) + "&endDate=" + dateFormat.format(item.getEndDate());
         HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -42,4 +42,5 @@ public class ApiNBRBRequestService implements IApiNBRBRequestService {
         }
         return null;
     }
+
 }

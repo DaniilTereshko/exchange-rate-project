@@ -1,6 +1,5 @@
 package by.it_academy.jd2.dao.db.impl;
 
-import by.it_academy.jd2.core.dto.CurrencyDTO;
 import by.it_academy.jd2.dao.api.ICurrencyDAO;
 import by.it_academy.jd2.dao.db.ds.DatabaseConnectionFactory;
 
