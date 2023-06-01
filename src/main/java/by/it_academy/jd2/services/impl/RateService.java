@@ -11,6 +11,10 @@ import by.it_academy.jd2.services.api.IRateService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class RateService implements IRateService {
         rateDTOS = rateJDBCDAO.get(rateRequest);
         if(rateDTOS == null || rateDTOS.isEmpty()){
             rateDTOS = apiNBRBRequestService.request(rateRequest);
-            //rateJDBCDAO.save(rateDTOS);
+            rateJDBCDAO.save(rateDTOS);
         }
         return rateDTOS;
     }
@@ -43,35 +47,36 @@ public class RateService implements IRateService {
         return rateJDBCDAO.get(currencyId);
     }
 
-    private RateRequestDTO validate(RateRequestCreatorDTO rateRequestCreatorDTO){
-        Date d1 = null;
-        Date d2 = null;
+    private RateRequestDTO validate(RateRequestCreatorDTO rateRequestCreatorDTO) {
+        LocalDateTime d1 = null;
+        LocalDateTime d2 = null;
 
         RateRequestDTO rateRequestDTO = new RateRequestDTO();
-        String dateFormatPatten = "yyyy-MM-dd";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatPatten);
-        dateFormat.setLenient(false);
+        String dateFormatPattern = "yyyy-MM-dd";
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormatPattern);
 
         String startDate = rateRequestCreatorDTO.getStartDate();
         String endDate = rateRequestCreatorDTO.getEndDate();
 
         try {
-            d1 = dateFormat.parse("2022-12-01");
-            d2 = dateFormat.parse("2023-05-31");
+            d1 = LocalDate.parse("2022-12-01", dateFormatter).atStartOfDay();
+            d2 = LocalDate.parse("2023-05-31", dateFormatter).atStartOfDay();
 
-            Date sDate = dateFormat.parse(startDate);
-            Date eDate = dateFormat.parse(endDate);
+            LocalDateTime sDate = LocalDate.parse(startDate, dateFormatter).atStartOfDay();
+            LocalDateTime eDate = LocalDate.parse(endDate, dateFormatter).atStartOfDay();
             rateRequestDTO.setStartDate(sDate);
             rateRequestDTO.setEndDate(eDate);
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             throw new BadRateRequestException("Incorrect date format", e);
         }
-        if(!rateRequestDTO.getStartDate().after(d1) || !rateRequestDTO.getEndDate().before(d2)){
+
+        if (!rateRequestDTO.getStartDate().isAfter(d1) || !rateRequestDTO.getEndDate().isBefore(d2)) {
             throw new BadRateRequestException("Working range from 2022-12-01 to 2023-05-31");
         }
+
         Integer id = currencyDAO.getIdByType(rateRequestCreatorDTO.getCurrencyType());
         rateRequestDTO.setId(id);
         return rateRequestDTO;
-
     }
+
 }

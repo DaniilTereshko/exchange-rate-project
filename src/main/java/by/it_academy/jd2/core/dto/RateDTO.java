@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class RateDTO {
     @JsonSetter("Cur_ID")
@@ -12,14 +13,14 @@ public class RateDTO {
     @JsonSetter("Cur_OfficialRate")
     private BigDecimal currencyCost;
     @JsonSetter("Date")
-    private Date dateExchangeRate;
+    private LocalDateTime dateExchangeRate;
     @JsonIgnore
     boolean isWeekend;
 
     public RateDTO() {
     }
 
-    public RateDTO(Integer currencyID, BigDecimal currencyCost, Date dateExchangeRate, boolean isWeekend) {
+    public RateDTO(Integer currencyID, BigDecimal currencyCost, LocalDateTime dateExchangeRate, boolean isWeekend) {
         this.currencyID = currencyID;
         this.currencyCost = currencyCost;
         this.dateExchangeRate = dateExchangeRate;
@@ -42,11 +43,11 @@ public class RateDTO {
         this.currencyCost = currencyCost;
     }
 
-    public Date getDateExchangeRate() {
+    public LocalDateTime getDateExchangeRate() {
         return dateExchangeRate;
     }
 
-    public void setDateExchangeRate(Date dateExchangeRate) {
+    public void setDateExchangeRate(LocalDateTime dateExchangeRate) {
         this.dateExchangeRate = dateExchangeRate;
     }
 
