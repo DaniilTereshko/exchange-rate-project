@@ -16,7 +16,7 @@ public class RateServiceFactory {
         if(rateService == null){
             synchronized (RateServiceFactory.class){
                 if(rateService == null){
-                    rateService = new RateService(RateJDBCDAOFactory.getInstance(), CurrencyJDBCDAOFactory.getInstance());
+                    rateService = new RateService(RateJDBCDAOFactory.getInstance(), CurrencyJDBCDAOFactory.getInstance(), ApiNBRBRequestServiceFactory.getInstance());
                 }
             }
         }

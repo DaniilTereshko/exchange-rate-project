@@ -1,41 +1,39 @@
 package by.it_academy.jd2.services.impl;
 
 import by.it_academy.jd2.core.dto.RateDTO;
+import by.it_academy.jd2.core.dto.RateRequestCreatorDTO;
 import by.it_academy.jd2.core.dto.RateRequestDTO;
-
+import by.it_academy.jd2.core.exception.BadRateRequestException;
 import by.it_academy.jd2.dao.api.ICurrencyDAO;
 import by.it_academy.jd2.dao.api.IRateDAO;
-import by.it_academy.jd2.dao.mapper.MapperFactory;
+import by.it_academy.jd2.services.api.IApiNBRBRequestService;
 import by.it_academy.jd2.services.api.IRateService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RateService implements IRateService {
     private final IRateDAO rateJDBCDAO;
     private final ICurrencyDAO currencyDAO;
+    private final IApiNBRBRequestService apiNBRBRequestService;
 
-    public RateService(IRateDAO rateDAO, ICurrencyDAO currencyDAO) {
+    public RateService(IRateDAO rateDAO, ICurrencyDAO currencyDAO, IApiNBRBRequestService apiNBRBRequestService) {
         this.rateJDBCDAO = rateDAO;
         this.currencyDAO = currencyDAO;
+        this.apiNBRBRequestService = apiNBRBRequestService;
     }
 
     @Override
-    public List<RateDTO> get(RateRequestDTO rateRequestDTO) {
-        validate(rateRequestDTO);
+    public List<RateDTO> get(RateRequestCreatorDTO rateRequestCreatorDTO) {
+        RateRequestDTO rateRequest = validate(rateRequestCreatorDTO);
         List<RateDTO> rateDTOS;
 
-        rateDTOS = rateJDBCDAO.get(rateRequestDTO);
+        rateDTOS = rateJDBCDAO.get(rateRequest);
         if(rateDTOS == null || rateDTOS.isEmpty()){
-            rateDTOS = rateRequest(rateRequestDTO);
-            rateJDBCDAO.save(rateDTOS);
+            rateDTOS = apiNBRBRequestService.request(rateRequest);
+            //rateJDBCDAO.save(rateDTOS);
         }
         return rateDTOS;
     }
@@ -45,29 +43,35 @@ public class RateService implements IRateService {
         return rateJDBCDAO.get(currencyId);
     }
 
-    private void validate(RateRequestDTO rateRequestDTO){
+    private RateRequestDTO validate(RateRequestCreatorDTO rateRequestCreatorDTO){
+        Date d1 = null;
+        Date d2 = null;
 
-    }
-    private List<RateDTO> rateRequest(RateRequestDTO rateRequestDTO){
-        HttpClient httpClient = HttpClient.newHttpClient();
-        String uri = "https://api.nbrb.by/ExRates/Rates/Dynamics/";
-        Integer curId= currencyDAO.getIdByType(rateRequestDTO.getCurrencyType());
+        RateRequestDTO rateRequestDTO = new RateRequestDTO();
+        String dateFormatPatten = "yyyy-MM-dd";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatPatten);
+        dateFormat.setLenient(false);
 
-        uri += curId + "?" + "startDate=" + rateRequestDTO.getStartDate() + "&endDate=" + rateRequestDTO.getEndDate();
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(uri))
-                .build();
+        String startDate = rateRequestCreatorDTO.getStartDate();
+        String endDate = rateRequestCreatorDTO.getEndDate();
+
         try {
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == HttpServletResponse.SC_OK){
-                String body = response.body();
-                ObjectMapper instance = MapperFactory.getInstance();
-                return instance.readValue(body, new TypeReference<>(){});
-            }
+            d1 = dateFormat.parse("2022-12-01");
+            d2 = dateFormat.parse("2023-05-31");
 
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            Date sDate = dateFormat.parse(startDate);
+            Date eDate = dateFormat.parse(endDate);
+            rateRequestDTO.setStartDate(sDate);
+            rateRequestDTO.setEndDate(eDate);
+        } catch (ParseException e) {
+            throw new BadRateRequestException("Incorrect date format", e);
         }
-        return null;
+        if(!rateRequestDTO.getStartDate().after(d1) || !rateRequestDTO.getEndDate().before(d2)){
+            throw new BadRateRequestException("Working range from 2022-12-01 to 2023-05-31");
+        }
+        Integer id = currencyDAO.getIdByType(rateRequestCreatorDTO.getCurrencyType());
+        rateRequestDTO.setId(id);
+        return rateRequestDTO;
+
     }
 }
