@@ -9,16 +9,11 @@ import by.it_academy.jd2.dao.api.IRateDAO;
 import by.it_academy.jd2.services.api.IApiNBRBRequestService;
 import by.it_academy.jd2.services.api.IRateService;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class RateService implements IRateService {
