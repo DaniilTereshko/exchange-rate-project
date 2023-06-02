@@ -13,17 +13,14 @@ public class DatabaseConnectionFactory {
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
     static {
-
-
         config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
         config.addDataSourceProperty("serverName", "ec2-3-125-38-63.eu-central-1.compute.amazonaws.com");
         config.addDataSourceProperty("portNumber", "5432");
         config.addDataSourceProperty("databaseName", "courses");
         config.addDataSourceProperty("user", "nbrb");
         config.addDataSourceProperty("password", "course2023");
-
+        config.setMaximumPoolSize(10);
         ds = new HikariDataSource(config);
-
     }
 
     private DatabaseConnectionFactory() {

@@ -24,7 +24,7 @@ public class RateJDBCDAO implements IRateDAO {
     public List<RateDTO> save(List<RateDTO> dtos) {
         try(Connection connection = DatabaseConnectionFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("INSERT INTO app.currency_exchange_rate(currency_id, currency_cost, date_exchange_rate)" +
-                    "VALUES(?, ?, ?);");){
+                    "VALUES(?, ?, ?) ON CONFLICT ON CONSTRAINT currency_exchange_rate_currency_id_date_exchange_rate_key DO NOTHING;");){
             for (RateDTO rateDTO:dtos){
                 statement.setObject(1, rateDTO.getCurrencyID());
                 statement.setBigDecimal(2, rateDTO.getCurrencyCost());
