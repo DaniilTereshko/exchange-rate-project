@@ -1,7 +1,7 @@
 package by.it_academy.jd2.services.api;
 
-import java.math.BigDecimal;
+import by.it_academy.jd2.core.dto.RateAverageMeanDTO;
 
 public interface IStatisticRateService {
-    BigDecimal averageByMonth(String currencyType, String month);
+    RateAverageMeanDTO get(String currencyType, int monthNumber);
 }

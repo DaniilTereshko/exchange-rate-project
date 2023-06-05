@@ -1,8 +1,10 @@
 package by.it_academy.jd2.core.dto;
 
+import by.it_academy.jd2.dao.mapper.serializers.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -14,6 +16,7 @@ public class RateDTO {
     @JsonSetter("Cur_OfficialRate")
     private BigDecimal currencyCost;
     @JsonSetter("Date")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateExchangeRate;
     @JsonIgnore
     boolean isWeekend;

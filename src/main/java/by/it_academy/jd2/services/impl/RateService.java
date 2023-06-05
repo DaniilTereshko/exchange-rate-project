@@ -1,5 +1,6 @@
 package by.it_academy.jd2.services.impl;
 
+import by.it_academy.jd2.core.dto.CurrencyDTO;
 import by.it_academy.jd2.core.dto.RateDTO;
 import by.it_academy.jd2.core.dto.RateRequestCreatorDTO;
 import by.it_academy.jd2.core.dto.RateRequestDTO;
@@ -30,21 +31,28 @@ public class RateService implements IRateService {
     @Override
     public List<RateDTO> get(RateRequestCreatorDTO rateRequestCreatorDTO) {
         RateRequestDTO rateRequest = validate(rateRequestCreatorDTO);
+
         List<RateDTO> rateDTOS;
         Duration between = Duration.between(rateRequest.getStartDate(), rateRequest.getEndDate());
-        long l = between.toDays() + 1;
+        long days = between.toDays() + 1;
 
         rateDTOS = rateJDBCDAO.get(rateRequest);
-        if(rateDTOS == null || rateDTOS.isEmpty() || rateDTOS.size() != l){
-            rateDTOS = apiNBRBRequestService.request(rateRequest);
+        if(rateDTOS == null || rateDTOS.isEmpty() || rateDTOS.size() != days){
+            rateDTOS = apiNBRBRequestService.getRatesByDateRange(rateRequest);
             rateJDBCDAO.save(rateDTOS);
         }
         return rateDTOS;
     }
 
     @Override
-    public List<RateDTO> get(Integer currencyId) {
-        return rateJDBCDAO.get(currencyId);
+    public List<RateDTO> get(String currencyType) {
+        Integer idByType = currencyDAO.getIdByType(currencyType);
+        if(idByType == null){
+            throw new BadRateRequestException("Incorrect currency type");
+        }
+        else {
+            return rateJDBCDAO.get(idByType);
+        }
     }
 
     private RateRequestDTO validate(RateRequestCreatorDTO rateRequestCreatorDTO) {
@@ -73,9 +81,12 @@ public class RateService implements IRateService {
         if (!rateRequestDTO.getStartDate().isAfter(d1) || !rateRequestDTO.getEndDate().isBefore(d2)) {
             throw new BadRateRequestException("Working range from 2022-12-01 to 2023-05-31");
         }
-
-        Integer id = currencyDAO.getIdByType(rateRequestCreatorDTO.getCurrencyType());
-        rateRequestDTO.setId(id);
+        Integer idByType = currencyDAO.getIdByType(rateRequestCreatorDTO.getCurrencyType());
+        if(idByType == null){
+            throw new BadRateRequestException("Incorrect currency type");
+        }else {
+            rateRequestDTO.setId(idByType);
+        }
         return rateRequestDTO;
     }
 
