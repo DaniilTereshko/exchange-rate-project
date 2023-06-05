@@ -11,7 +11,7 @@ public class RateRequestDTO {
     public RateRequestDTO() {
     }
 
-    public RateRequestDTO(Integer id, LocalDateTime endDate, LocalDateTime startDate) {
+    public RateRequestDTO(Integer id, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.endDate = endDate;
         this.startDate = startDate;

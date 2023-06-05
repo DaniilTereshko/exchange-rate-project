@@ -1,33 +1,31 @@
 package by.it_academy.jd2.dao.db.ds;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Properties;
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class DatabaseConnectionFactory {
-    private static HikariConfig config = new HikariConfig();
-    private static HikariDataSource ds;
+    private static ComboPooledDataSource cpds;
     static {
-        config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
-        config.addDataSourceProperty("serverName", "ec2-3-125-38-63.eu-central-1.compute.amazonaws.com");
-        config.addDataSourceProperty("portNumber", "5432");
-        config.addDataSourceProperty("databaseName", "courses");
-        config.addDataSourceProperty("user", "nbrb");
-        config.addDataSourceProperty("password", "course2023");
-        config.setMaximumPoolSize(10);
-        ds = new HikariDataSource(config);
+        cpds = new ComboPooledDataSource();
+        try {
+            cpds.setDriverClass( "org.postgresql.Driver" ); //loads the jdbc driver
+        } catch (PropertyVetoException e) {
+            throw new RuntimeException(e);
+        }
+        cpds.setJdbcUrl( "jdbc:postgresql://ec2-3-125-38-63.eu-central-1.compute.amazonaws.com:5432/courses" );
+        cpds.setUser("nbrb");
+        cpds.setPassword("course2023");
+        cpds.setMaxPoolSize(10);
     }
 
     private DatabaseConnectionFactory() {
     }
 
     public static Connection getConnection() throws SQLException {
-        return ds.getConnection();
+        return cpds.getConnection();
     }
 
     private static void closeConnection(Connection c) throws SQLException {
