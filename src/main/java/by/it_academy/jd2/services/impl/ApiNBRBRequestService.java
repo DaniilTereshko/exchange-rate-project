@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -18,6 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ApiNBRBRequestService implements IApiNBRBRequestService {
+
+    private static final String URL_TYPE = "https://api.nbrb.by/exrates/rates/";
+    private final ObjectMapper mapper = MapperFactory.getInstance();
     @Override
     public List<RateDTO> getRatesByDateRange(RateRequestDTO item) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -40,5 +44,15 @@ public class ApiNBRBRequestService implements IApiNBRBRequestService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+    public CurrencyDTO getCurrencyType(String name){
+        CurrencyDTO typeDTO = null;
+        String urlString = URL_TYPE + name + "?parammode=2";
+        try {
+            typeDTO = mapper.readValue(new URL(urlString), CurrencyDTO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return typeDTO;
     }
 }
