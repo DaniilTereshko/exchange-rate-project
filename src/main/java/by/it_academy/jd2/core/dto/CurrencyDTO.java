@@ -11,7 +11,8 @@ public class CurrencyDTO {
     @JsonSetter("Cur_Abbreviation")
     private String name;
 
-
+    public CurrencyDTO() {
+    }
 
     public CurrencyDTO(int ID,
                        String name
