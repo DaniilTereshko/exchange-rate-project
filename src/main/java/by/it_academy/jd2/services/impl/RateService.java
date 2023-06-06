@@ -31,8 +31,8 @@ public class RateService implements IRateService {
     public List<RateDTO> get(RateRequestCreatorDTO rateRequestCreatorDTO) {
         validate(rateRequestCreatorDTO);
         RateRequestDTO rateRequest = new RateRequestDTO();
-        rateRequest.setEndDate(rateRequest.getEndDate());
-        rateRequest.setStartDate(rateRequest.getStartDate());
+        rateRequest.setEndDate(rateRequestCreatorDTO.getEndDate());
+        rateRequest.setStartDate(rateRequestCreatorDTO.getStartDate());
         CurrencyDTO currency = currencyDAO.getByType(rateRequestCreatorDTO.getCurrencyType());
         rateRequest.setId(currency.getID());
 
@@ -65,7 +65,7 @@ public class RateService implements IRateService {
         }
         CurrencyDTO currency = currencyDAO.getByType(rateRequestCreatorDTO.getCurrencyType());
         if(currency == null){
-            //currency = apiNBRBRequestService.getCurrencyType(name);
+            currency = apiNBRBRequestService.getCurrencyType(rateRequestCreatorDTO.getCurrencyType());
             if(currency != null){
                 currencyDAO.save(currency);
             }

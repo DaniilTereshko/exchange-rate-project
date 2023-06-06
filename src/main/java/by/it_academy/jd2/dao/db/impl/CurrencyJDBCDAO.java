@@ -14,12 +14,13 @@ public class CurrencyJDBCDAO implements ICurrencyDAO {
 
     @Override
     public CurrencyDTO getByType(String currencyType) {
-        CurrencyDTO currencyDTO = new CurrencyDTO();
+        CurrencyDTO currencyDTO = null;
         try(Connection connection = DatabaseConnectionFactory.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT cur_id, abbreviation FROM app.currency WHERE abbreviation = ? ORDER BY cur_id DESC LIMIT 1;");){
             statement.setString(1, currencyType);
             try(ResultSet resultSet = statement.executeQuery();) {
                 if(resultSet.next()){
+                    currencyDTO = new CurrencyDTO();
                     currencyDTO.setID(resultSet.getInt("cur_id"));
                     currencyDTO.setName(resultSet.getString("abbreviation"));
                 }
