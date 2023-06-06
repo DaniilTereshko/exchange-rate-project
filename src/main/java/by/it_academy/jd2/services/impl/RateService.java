@@ -38,7 +38,7 @@ public class RateService implements IRateService {
 
         List<RateDTO> rateDTOS;
         Duration between = Duration.between(rateRequest.getStartDate(), rateRequest.getEndDate());
-        long days = between.toDays() + 1;
+        long days = Math.abs(between.toDays() + 1);
 
         rateDTOS = rateJDBCDAO.get(rateRequest);
         if(rateDTOS == null || rateDTOS.isEmpty() || rateDTOS.size() != days){
@@ -50,24 +50,23 @@ public class RateService implements IRateService {
 
     @Override
     public List<RateDTO> get(String currencyType) {
+        validateCurrencyType(currencyType);
         CurrencyDTO currency = currencyDAO.getByType(currencyType);
-        if(currency == null){
-            throw new BadRateRequestException("Incorrect currency type");
-        }
-        else {
-            return rateJDBCDAO.get(currency.getID());
-        }
+        return rateJDBCDAO.get(currency.getID());
     }
 
     private void validate(RateRequestCreatorDTO rateRequestCreatorDTO) {
         if (!rateRequestCreatorDTO.getStartDate().isAfter(START_VALID_DATE.atStartOfDay()) || !rateRequestCreatorDTO.getEndDate().isBefore(END_VALID_DATE.atStartOfDay())) {
             throw new BadRateRequestException("Working range from 2022-12-01 to 2023-05-31");
         }
-        CurrencyDTO currency = currencyDAO.getByType(rateRequestCreatorDTO.getCurrencyType());
-        if(currency == null){
-            currency = apiNBRBRequestService.getCurrencyType(rateRequestCreatorDTO.getCurrencyType());
-            if(currency != null){
-                currencyDAO.save(currency);
+        validateCurrencyType(rateRequestCreatorDTO.getCurrencyType());
+    }
+    private void validateCurrencyType(String currency){
+        CurrencyDTO currencyDTO = currencyDAO.getByType(currency);
+        if(currencyDTO == null){
+            currencyDTO = apiNBRBRequestService.getCurrencyType(currency);
+            if(currencyDTO != null){
+                currencyDAO.save(currencyDTO);
             }
             else {
                 throw new BadRateRequestException("Incorrect currency type");

@@ -31,12 +31,7 @@ public class StatisticRateService implements IStatisticRateService {
     public RateAverageMeanDTO get(String currencyType, int monthNumber) {
         currencyType = currencyType.toUpperCase();
         BigDecimal averageMean = null;
-
-        // проверка на валюту
-        if (!checkOnType(currencyType)) {
-            throw new IllegalArgumentException("Such currency doesn't exist!");
-        }
-
+        validateCurrencyType(currencyType);
         // проверка на месяц
         if (monthNumber > 12 || monthNumber < 1) {
             throw new IllegalArgumentException("Incorrect month number");
@@ -82,8 +77,17 @@ public class StatisticRateService implements IStatisticRateService {
         gm = BigDecimal.valueOf(Math.pow(gm.doubleValue(), 1.0 / (double) rateDTOList.size()));
         return gm;
     }
-
-    private boolean checkOnType(String currencyType) {
-        return currencyDAO.getByType(currencyType) != null;
+    private void validateCurrencyType(String currency){
+        CurrencyDTO currencyDTO = currencyDAO.getByType(currency);
+        if(currencyDTO == null){
+            currencyDTO = apiNBRBRequestService.getCurrencyType(currency);
+            if(currencyDTO != null){
+                currencyDAO.save(currencyDTO);
+            }
+            else {
+                throw new BadRateRequestException("Incorrect currency type");
+            }
+        }
     }
+
 }
