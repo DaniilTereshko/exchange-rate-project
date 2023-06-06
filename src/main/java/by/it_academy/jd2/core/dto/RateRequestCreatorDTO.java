@@ -1,14 +1,16 @@
 package by.it_academy.jd2.core.dto;
 
+import java.time.LocalDateTime;
+
 public class RateRequestCreatorDTO {
     private String currencyType;
-    private String endDate;
-    private String startDate;
+    private LocalDateTime endDate;
+    private LocalDateTime startDate;
 
     public RateRequestCreatorDTO() {
     }
 
-    public RateRequestCreatorDTO(String currencyType, String startDate, String endDate) {
+    public RateRequestCreatorDTO(String currencyType, LocalDateTime endDate, LocalDateTime startDate) {
         this.currencyType = currencyType;
         this.endDate = endDate;
         this.startDate = startDate;
@@ -22,19 +24,19 @@ public class RateRequestCreatorDTO {
         this.currencyType = currencyType;
     }
 
-    public String getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
-    public String getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 }
