@@ -17,6 +17,7 @@ public class MapperFactory {
                     instance = new ObjectMapper();
                     instance.registerModule(new JavaTimeModule());
                     instance.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+                    instance.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 }
             }
         }

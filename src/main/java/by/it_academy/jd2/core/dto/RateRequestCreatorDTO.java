@@ -10,7 +10,7 @@ public class RateRequestCreatorDTO {
     public RateRequestCreatorDTO() {
     }
 
-    public RateRequestCreatorDTO(String currencyType, LocalDateTime endDate, LocalDateTime startDate) {
+    public RateRequestCreatorDTO(String currencyType, LocalDateTime startDate, LocalDateTime endDate) {
         this.currencyType = currencyType;
         this.endDate = endDate;
         this.startDate = startDate;
