@@ -12,12 +12,11 @@ import by.it_academy.jd2.services.api.IRateService;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class RateService implements IRateService {
+    private static final LocalDate START_VALID_DATE = LocalDate.of(2022, 12, 1);
+    private static final LocalDate END_VALID_DATE = LocalDate.of(2023, 5, 31);
     private final IRateDAO rateJDBCDAO;
     private final ICurrencyDAO currencyDAO;
     private final IApiNBRBRequestService apiNBRBRequestService;
@@ -30,7 +29,12 @@ public class RateService implements IRateService {
 
     @Override
     public List<RateDTO> get(RateRequestCreatorDTO rateRequestCreatorDTO) {
-        RateRequestDTO rateRequest = validate(rateRequestCreatorDTO);
+        validate(rateRequestCreatorDTO);
+        RateRequestDTO rateRequest = new RateRequestDTO();
+        rateRequest.setEndDate(rateRequest.getEndDate());
+        rateRequest.setStartDate(rateRequest.getStartDate());
+        CurrencyDTO currency = currencyDAO.getByType(rateRequestCreatorDTO.getCurrencyType());
+        rateRequest.setId(currency.getID());
 
         List<RateDTO> rateDTOS;
         Duration between = Duration.between(rateRequest.getStartDate(), rateRequest.getEndDate());
@@ -46,48 +50,29 @@ public class RateService implements IRateService {
 
     @Override
     public List<RateDTO> get(String currencyType) {
-        Integer idByType = currencyDAO.getIdByType(currencyType);
-        if(idByType == null){
+        CurrencyDTO currency = currencyDAO.getByType(currencyType);
+        if(currency == null){
             throw new BadRateRequestException("Incorrect currency type");
         }
         else {
-            return rateJDBCDAO.get(idByType);
+            return rateJDBCDAO.get(currency.getID());
         }
     }
 
-    private RateRequestDTO validate(RateRequestCreatorDTO rateRequestCreatorDTO) {
-        LocalDateTime d1 = null;
-        LocalDateTime d2 = null;
-
-        RateRequestDTO rateRequestDTO = new RateRequestDTO();
-        String dateFormatPattern = "yyyy-MM-dd";
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormatPattern);
-
-        String startDate = rateRequestCreatorDTO.getStartDate();
-        String endDate = rateRequestCreatorDTO.getEndDate();
-
-        try {
-            d1 = LocalDate.parse("2022-12-01", dateFormatter).atStartOfDay();
-            d2 = LocalDate.parse("2023-05-31", dateFormatter).atStartOfDay();
-
-            LocalDateTime sDate = LocalDate.parse(startDate, dateFormatter).atStartOfDay();
-            LocalDateTime eDate = LocalDate.parse(endDate, dateFormatter).atStartOfDay();
-            rateRequestDTO.setStartDate(sDate);
-            rateRequestDTO.setEndDate(eDate);
-        } catch (DateTimeParseException e) {
-            throw new BadRateRequestException("Incorrect date format", e);
-        }
-
-        if (!rateRequestDTO.getStartDate().isAfter(d1) || !rateRequestDTO.getEndDate().isBefore(d2)) {
+    private void validate(RateRequestCreatorDTO rateRequestCreatorDTO) {
+        if (!rateRequestCreatorDTO.getStartDate().isAfter(START_VALID_DATE.atStartOfDay()) || !rateRequestCreatorDTO.getEndDate().isBefore(END_VALID_DATE.atStartOfDay())) {
             throw new BadRateRequestException("Working range from 2022-12-01 to 2023-05-31");
         }
-        Integer idByType = currencyDAO.getIdByType(rateRequestCreatorDTO.getCurrencyType());
-        if(idByType == null){
-            throw new BadRateRequestException("Incorrect currency type");
-        }else {
-            rateRequestDTO.setId(idByType);
+        CurrencyDTO currency = currencyDAO.getByType(rateRequestCreatorDTO.getCurrencyType());
+        if(currency == null){
+            //currency = apiNBRBRequestService.getCurrencyType(name);
+            if(currency != null){
+                currencyDAO.save(currency);
+            }
+            else {
+                throw new BadRateRequestException("Incorrect currency type");
+            }
         }
-        return rateRequestDTO;
     }
 
 }

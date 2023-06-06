@@ -1,5 +1,6 @@
 package by.it_academy.jd2.services.impl;
 
+import by.it_academy.jd2.core.dto.CurrencyDTO;
 import by.it_academy.jd2.core.dto.RateAverageMeanDTO;
 import by.it_academy.jd2.core.dto.RateDTO;
 import by.it_academy.jd2.core.dto.RateRequestDTO;
@@ -10,16 +11,10 @@ import by.it_academy.jd2.services.api.IApiNBRBRequestService;
 import by.it_academy.jd2.services.api.IStatisticRateService;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class StatisticRateService implements IStatisticRateService {
@@ -55,12 +50,12 @@ public class StatisticRateService implements IStatisticRateService {
         LocalDateTime startDate = LocalDateTime.of(year, month, 1, 0, 0);
         LocalDateTime endDate = LocalDateTime.of(year, month, daysInMonth, 23, 59, 59);
 
-        Integer idByType = currencyDAO.getIdByType(currencyType);
-        if(idByType == null){
+        CurrencyDTO currency = currencyDAO.getByType(currencyType);
+        if(currency == null){
             throw new BadRateRequestException("Invalid currency type");
         }
         // пытаемся получить данные из БД
-        RateRequestDTO rateRequestDTO = new RateRequestDTO(idByType, startDate, endDate);
+        RateRequestDTO rateRequestDTO = new RateRequestDTO(currency.getID(), startDate, endDate);
         List<RateDTO> rateDTOList = rateJDBCDAO.get(rateRequestDTO);
         Duration between = Duration.between(startDate, endDate);
         long days = between.toDays() + 1;
@@ -89,6 +84,6 @@ public class StatisticRateService implements IStatisticRateService {
     }
 
     private boolean checkOnType(String currencyType) {
-        return currencyDAO.getIdByType(currencyType) != null;
+        return currencyDAO.getByType(currencyType) != null;
     }
 }
